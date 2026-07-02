@@ -226,14 +226,18 @@ async function findWebm(dir) {
 // ---------------------------------------------------------------------------
 // Convert webm -> gif using a two-pass palette for quality.
 // ---------------------------------------------------------------------------
-function webmToGif(ffmpeg, webmPath, gifPath, { fps, width, tmpDir }) {
+function webmToGif(ffmpeg, webmPath, gifPath, { fps, width, tmpDir, trimStart = 0 }) {
   const palette = path.join(tmpDir, 'palette.png');
+  // Input seek (before -i) to skip the pre-first-paint blank frames the browser
+  // records while the page loads. Applied to both passes so they stay in sync.
+  const seek = trimStart > 0 ? ['-ss', String(trimStart)] : [];
 
   // Pass 1: generate an optimized palette.
   execFileSync(
     ffmpeg,
     [
       '-y',
+      ...seek,
       '-i', webmPath,
       '-vf', `fps=${fps},scale=${width}:-1:flags=lanczos,palettegen=stats_mode=diff`,
       palette,
@@ -246,6 +250,7 @@ function webmToGif(ffmpeg, webmPath, gifPath, { fps, width, tmpDir }) {
     ffmpeg,
     [
       '-y',
+      ...seek,
       '-i', webmPath,
       '-i', palette,
       '-lavfi',
@@ -307,6 +312,9 @@ async function main() {
   const viewHeight = Math.round(viewWidth * 0.625); // 16:10
   const outWidth = Math.min(viewWidth, Math.max(64, parseInt(args.width, 10) || 1000));
   const fps = Math.max(1, parseInt(args.fps, 10) || 15);
+  // Seconds to trim off the front of the recording, dropping the blank frames
+  // captured before the page's first paint. --trim-start 0 keeps everything.
+  const trimStart = Math.max(0, Number.isFinite(parseFloat(args['trim-start'])) ? parseFloat(args['trim-start']) : 0.5);
   const duration = Math.max(1, parseFloat(args.duration) || 6);
   const waitMs = Number.isFinite(parseInt(args.wait, 10)) ? parseInt(args.wait, 10) : 1500;
 
@@ -407,8 +415,8 @@ async function main() {
 
     // --- Convert to gif -----------------------------------------------------
     await fsp.mkdir(path.dirname(outPath), { recursive: true });
-    console.log(`[capture] Converting to GIF via ffmpeg (fps=${fps}, width=${outWidth})...`);
-    webmToGif(ffmpeg, webmPath, outPath, { fps, width: outWidth, tmpDir: workTmpDir });
+    console.log(`[capture] Converting to GIF via ffmpeg (fps=${fps}, width=${outWidth}, trim ${trimStart}s)...`);
+    webmToGif(ffmpeg, webmPath, outPath, { fps, width: outWidth, tmpDir: workTmpDir, trimStart });
 
     // --- Report -------------------------------------------------------------
     const st = await fsp.stat(outPath);

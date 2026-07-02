@@ -35,6 +35,21 @@
         "shaders",
         "framer"
       ]
+    },
+    {
+      "id": "prototype-03",
+      "number": 3,
+      "label": "Prototype 03",
+      "title": "Running Log",
+      "description": "The portfolio site itself — a self-updating log where each prototype is captured as a looping GIF of its best moment and published with a single command.",
+      "gif": "gifs/prototype-03.gif",
+      "repo": "https://github.com/jannar18/prototypes",
+      "date": "2026-07-02",
+      "tags": [
+        "javascript",
+        "static-site",
+        "pipeline"
+      ]
     }
   ]
 }

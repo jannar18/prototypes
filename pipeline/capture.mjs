@@ -8,7 +8,11 @@
  * Usage:
  *   node capture.mjs --out <path.gif> [--url <url>] [--serve <dir>] [--file <path.html>]
  *      [--start "<cmd>"] [--port <n>] [--cwd <dir>] [--script <interaction.mjs>]
- *      [--width 900] [--fps 15] [--duration 6] [--wait 1500]
+ *      [--view-width 1280] [--width 1000] [--fps 15] [--duration 6] [--wait 1500]
+ *
+ * --view-width is the browser viewport we render & record at (full desktop
+ * width, so the whole app layout is visible). --width is the GIF's output
+ * pixel width, downscaled from the recording to keep file size reasonable.
  *
  * Exactly one source must be provided among: --url, --serve, --file, or --start(+--port).
  *
@@ -295,8 +299,13 @@ async function main() {
   }
 
   // --- Numeric options with defaults --------------------------------------
-  const width = Math.max(64, parseInt(args.width, 10) || 900);
-  const height = Math.round(width * 0.625); // 16:10
+  // viewWidth: the browser viewport we render & record at — a full desktop
+  //   width so the whole app layout is captured (not a cramped, narrow slice).
+  // outWidth: the GIF's output pixel width — downscaled from the recording to
+  //   keep file size reasonable. Never larger than the viewport we recorded.
+  const viewWidth = Math.max(64, parseInt(args['view-width'], 10) || 1280);
+  const viewHeight = Math.round(viewWidth * 0.625); // 16:10
+  const outWidth = Math.min(viewWidth, Math.max(64, parseInt(args.width, 10) || 1000));
   const fps = Math.max(1, parseInt(args.fps, 10) || 15);
   const duration = Math.max(1, parseFloat(args.duration) || 6);
   const waitMs = Number.isFinite(parseInt(args.wait, 10)) ? parseInt(args.wait, 10) : 1500;
@@ -353,12 +362,12 @@ async function main() {
     workTmpDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'capture-work-'));
 
     // --- Launch Playwright + record video ----------------------------------
-    console.log(`[capture] Launching chromium (viewport ${width}x${height}, dsf 2)...`);
+    console.log(`[capture] Launching chromium (viewport ${viewWidth}x${viewHeight}, dsf 2, gif width ${outWidth})...`);
     browser = await chromium.launch({ headless: true });
     context = await browser.newContext({
-      viewport: { width, height },
+      viewport: { width: viewWidth, height: viewHeight },
       deviceScaleFactor: 2,
-      recordVideo: { dir: videoTmpDir, size: { width, height } },
+      recordVideo: { dir: videoTmpDir, size: { width: viewWidth, height: viewHeight } },
     });
     const page = await context.newPage();
 
@@ -398,8 +407,8 @@ async function main() {
 
     // --- Convert to gif -----------------------------------------------------
     await fsp.mkdir(path.dirname(outPath), { recursive: true });
-    console.log(`[capture] Converting to GIF via ffmpeg (fps=${fps}, width=${width})...`);
-    webmToGif(ffmpeg, webmPath, outPath, { fps, width, tmpDir: workTmpDir });
+    console.log(`[capture] Converting to GIF via ffmpeg (fps=${fps}, width=${outWidth})...`);
+    webmToGif(ffmpeg, webmPath, outPath, { fps, width: outWidth, tmpDir: workTmpDir });
 
     // --- Report -------------------------------------------------------------
     const st = await fsp.stat(outPath);

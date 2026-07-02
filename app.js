@@ -49,7 +49,6 @@
              data-desc="${esc(p.description)}"
              data-repo="${esc(p.repo || "")}"
              role="button" tabindex="0" aria-label="Open ${esc(p.title)}">
-          <span class="card-number">${esc(num)}</span>
           <img src="${esc(p.gif)}" alt="${esc(p.title)} preview" loading="lazy" decoding="async" />
         </div>
         <div class="card-body">

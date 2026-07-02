@@ -19,6 +19,22 @@
         "vite",
         "product"
       ]
+    },
+    {
+      "id": "prototype-02",
+      "number": 2,
+      "label": "Prototype 02",
+      "title": "Relief Hover",
+      "description": "A WebGL tool for designing a metallic, light-follows-cursor hover-reveal effect and exporting it as a ready-to-use Framer component.",
+      "gif": "gifs/prototype-02.gif",
+      "repo": "https://github.com/jannar18/wild-week-rebuild",
+      "date": "2026-07-02",
+      "tags": [
+        "webgl",
+        "three.js",
+        "shaders",
+        "framer"
+      ]
     }
   ]
 }

@@ -1,0 +1,5 @@
+pipeline/node_modules/
+.DS_Store
+*.log
+pipeline/.tmp/
+tmp/

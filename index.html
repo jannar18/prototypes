@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Julianna Roberts — Prototypes & Experiments</title>
+  <meta name="description" content="Prototypes, experiments, and things being figured out — by Julianna Roberts." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Julianna Roberts — Prototypes & Experiments" />
+  <meta property="og:description" content="Prototypes, experiments, and things being figured out." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%97%90%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="wordmark" href="/">
+      <span class="mark" aria-hidden="true">◐</span>
+      <span class="wordmark-name" data-profile-name>Julianna Roberts</span>
+    </a>
+    <nav class="site-nav">
+      <a href="https://github.com/jannar18" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="hero-eyebrow" data-profile-tagline>Prototypes &amp; Experiments</p>
+      <h1 class="hero-title">
+        A running log of things<br />
+        I'm <em>building</em> and <em>figuring&nbsp;out</em>.
+      </h1>
+      <p class="hero-sub">
+        Each entry is a prototype captured at its best moment — the part that works,
+        the idea that clicks. Newest first.
+      </p>
+    </section>
+
+    <section class="work" aria-label="Prototypes">
+      <div class="grid" id="grid" data-grid>
+        <!-- cards injected by app.js -->
+      </div>
+
+      <div class="empty" id="empty" hidden>
+        <span class="empty-mark">◐</span>
+        <p>The first prototype is on its way.</p>
+        <p class="empty-sub">Run <code>/post-prototype</code> from any project to publish here.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span class="footer-name" data-profile-name>Julianna Roberts</span>
+    <span class="footer-meta">Built with a one-command pipeline · <span id="year"></span></span>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+    <figure class="lightbox-inner">
+      <img id="lightboxImg" alt="" />
+      <figcaption>
+        <span class="lightbox-label" id="lightboxLabel"></span>
+        <h3 class="lightbox-title" id="lightboxTitle"></h3>
+        <p class="lightbox-desc" id="lightboxDesc"></p>
+        <a class="lightbox-repo" id="lightboxRepo" target="_blank" rel="noopener">View repository ↗</a>
+      </figcaption>
+    </figure>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

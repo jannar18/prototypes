@@ -56,15 +56,15 @@
       "number": 4,
       "label": "Prototype 04",
       "title": "Fractal Campus",
-      "description": "A Framer landing page for a Williamsburg coworking space for builders, styled in blackletter type and neoclassical reliefs that reveal as you scroll.",
+      "description": "A Framer landing page for a Williamsburg coworking space for builders, where a warm light follows your cursor across neoclassical reliefs as you scroll.",
       "gif": "gifs/prototype-04.gif",
       "repo": "",
       "date": "2026-07-03",
       "tags": [
         "framer",
         "landing-page",
-        "marketing",
-        "typography"
+        "interactive",
+        "webgl"
       ]
     }
   ]

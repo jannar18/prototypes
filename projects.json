@@ -11,7 +11,7 @@
       "title": "Stem",
       "description": "An elegant URL shortener that trims, brands, and tracks every link — even on your own domain — without the clutter.",
       "gif": "gifs/prototype-01.gif",
-      "repo": "https://github.com/jannar18/stem",
+      "repo": "",
       "date": "2026-07-02",
       "tags": [
         "react",
